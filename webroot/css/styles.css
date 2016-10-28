@@ -1,0 +1,71 @@
+body
+    {
+      background: #333333;
+      color: #FFFFFF;
+    }
+      .navbar-default
+      {
+        background: #333333;
+        border: none;
+      }
+      .sliddiv 
+      {
+        background-color: black;
+        background: url(../img/bg.png) no-repeat center center; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        height: 470px;
+      }
+      p.textcolor
+      {
+        font-size: 30px;
+        color: #FFFFFF;
+      }
+      .navbar-default .navbar-brand
+      {
+        color: #FFFFFF;
+
+      }
+      .navbar-default .navbar-nav > li > a:hover {
+        color: #FFFFFF;
+        text-decoration: underline;
+      }
+      .navbar-default .navbar-nav > li > a {
+          color: #FFFFFF;
+      }
+      .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, .navbar-default .navbar-nav > .active > a:hover {
+          color: #FF0000;
+          background-color: transparent;
+      }
+      .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
+          color: #FFFFFF;
+          background-color: transparent;          
+      }
+      .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand
+      {
+        margin-left: 30px;
+      }
+      .bottomdiv
+      {
+        background: #FFFFFF;
+        color: #333;
+        text-align: justify;
+        padding: 15px 30px 10px 10px;
+      }
+      @media only screen and (min-width : 768px){
+        .detaildiv
+        {
+          margin-top: -330px;
+        } 
+      }
+      @media only screen and (min-width : 768px) {
+        @-moz-document url-prefix() 
+        {
+          .detaildiv1{
+          margin-top: -230px;
+        }
+        }
+        
+      }
