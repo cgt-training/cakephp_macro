@@ -55,6 +55,8 @@ Router::scope('/', function (RouteBuilder $routes) {
      * ...and connect the rest of 'Pages' controller's URLs.
      */
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+   
+
 
     /**
      * Connect catchall routes for all controllers.
@@ -73,6 +75,13 @@ Router::scope('/', function (RouteBuilder $routes) {
      * routes you want in your application.
      */
     $routes->fallbacks(DashedRoute::class);
+});
+ Router::prefix('Admin', function ($routes) {
+    // Because you are in the admin scope,
+    // you do not need to include the /admin prefix
+    // or the admin route element.
+    $routes->connect('/', ['controller' => 'Users', 'action' => 'index']);
+     $routes->fallbacks(DashedRoute::class);
 });
 
 /**

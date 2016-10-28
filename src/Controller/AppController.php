@@ -44,16 +44,70 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Cookie');
         $this->loadComponent('Flash');
-        $this->loadComponent('Auth', [
-            'loginRedirect' => [
-                'controller' => 'Posts',
-                'action' => 'index'
-            ],
-            'logoutRedirect' => [
-                'controller' => 'Posts',
-                'action' => 'index'
-            ]
-        ]);
+       if(isset($this->request->prefix) && ($this->request->prefix == 'admin')){
+
+        // if($user == 'admin'){
+    
+                    $this->loadComponent('Auth', [   
+
+                        'authorize' => 'Controller',  
+
+                        'loginRedirect' => [
+                        'controller' => 'BlogPosts',
+                        'action' => 'index',
+                        'prefix' => 'admin',
+                        // 'prefix' => false,
+                        ],
+
+                        'logoutRedirect' => [
+                        'controller' => 'Users',
+                        'action' => 'login',
+                        'prefix' => false,
+                            
+                        ],
+
+                        'authenticate' => [
+                            'Form' => [
+                                'fields' => ['username' => 'username', 'password' => 'password']
+                            ]
+
+                        ],
+                        
+                        'authorize' => ['Controller'],
+                        
+                    ]);
+        }else{
+
+
+                     $this->loadComponent('Auth', [ 
+
+                        // 'authorize' => 'Controller',
+
+                        'loginRedirect' => [
+                        'controller' => 'Posts',
+                        'action' => 'index',
+                        // 'prefix' => 'admin',
+                        'prefix' => false,
+                        ],
+
+                        'logoutRedirect' => [
+                        'controller' => 'Posts',
+                        'action' => 'hindexome',
+                        'prefix' => false,
+                            
+
+                        ],
+
+                        'authenticate' => [
+                            'Form' => [
+                                'fields' => ['username' => 'username', 'password' => 'password']
+                            ]
+
+                        ],
+                        
+                    ]);
+
+        }
         $this->checkCookie();
     }
     public function beforeFilter(Event $event)
