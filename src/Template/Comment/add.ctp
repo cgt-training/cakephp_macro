@@ -1,4 +1,4 @@
-<?php echo $this->Html->getCrumbs(' > ', [ 'text' => __('List Products'), 'url' => ['action' => 'index'],  'escape' => false]);?>
+<?php echo $this->Html->getCrumbs(' > ', [ 'text' => __('List Comments'), 'url' => ['action' => 'index'],  'escape' => false]);?>
 <div class="comment form large-9 medium-8 columns content">
     <?= $this->Form->create($comment) ?>
     <fieldset>

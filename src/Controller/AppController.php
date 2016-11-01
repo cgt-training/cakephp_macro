@@ -81,7 +81,7 @@ class AppController extends Controller
 
                      $this->loadComponent('Auth', [ 
 
-                        // 'authorize' => 'Controller',
+                       //  'authorize' => 'Controller',
 
                         'loginRedirect' => [
                         'controller' => 'Posts',
@@ -92,7 +92,7 @@ class AppController extends Controller
 
                         'logoutRedirect' => [
                         'controller' => 'Posts',
-                        'action' => 'hindexome',
+                        'action' => 'index',
                         'prefix' => false,
                             
 
@@ -104,6 +104,8 @@ class AppController extends Controller
                             ]
 
                         ],
+                        // 'authorize' => ['Controller'],
+
                         
                     ]);
 
@@ -112,8 +114,41 @@ class AppController extends Controller
     }
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['index', 'view', 'display']);
+        //pr($this->request);
+         //if(empty($this->request->prefix) && ($this->request->prefix !== 'admin'))
+         //{
+             $this->Auth->allow(['index', 'view', 'display']); 
+           // $this->Auth->deny(); 
+        // }
+       
     }
+    public function isAuthorized($user = null)
+    {
+       // echo pr($_SESSION) ;exit;
+        if (isset($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') 
+        {
+           // echo "test".$user['role'];exit;
+            if($user['role'] != 'admin'){
+                $this->Flash->error("Unauthorized access");     
+                $this->redirect(['controller' => 'Users','action' => 'logout']);
+                return false;
+            }
+               return true;
+        }  
+        else
+        {
+            // Admin can access every action
+            if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+            }
+
+            // Default deny
+            //$this->Flash->error("Unauthorized access"); 
+            //   $this->redirect(['action' => 'index']);
+            return false;
+        }
+    }
+    
 
     /**
      * Before render callback.

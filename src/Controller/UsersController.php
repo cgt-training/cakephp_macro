@@ -86,6 +86,7 @@ class UsersController extends AppController
     public function logout()
     {
         $this->Cookie->delete('UserNew');
+        $this->Flash->success(__('Logout Successful'));
         return $this->redirect($this->Auth->logout());
     }
     public function index()

@@ -3,13 +3,16 @@
   <head>
      <?= $this->element('head') ?></head>
   <body>
-  <?= $this->Flash->render('auth') ?>
+  
 <?= $this->Form->create() ?>
 <div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
 
   <div class="modal-dialog">
+
   <div class="modal-content">
-      <div class="modal-header">          
+
+      <div class="modal-header">    
+          <h4 class="text-center"><?= $this->Flash->render() ?></h4>      
           <h1 class="text-center">Login</h1>
       </div>
       <div class="modal-body">

@@ -39,12 +39,9 @@ class UsersController extends AppController
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
         // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow(['add', 'logout']);
+        $this->Auth->allow(['logout']);
     }
-    public function isAuthorized()
-    {
-        return true;
-    }
+    
     public function login()
     {
         //pr($this->request->is);
@@ -68,7 +65,7 @@ class UsersController extends AppController
                  //$this->Cookie->read('UserNew.name');
                 
                  $this->Auth->setUser($user);
-                 return $this->redirect($this->Auth->redirectUrl());
+                 return $this->redirect(['controller'=>'BlogPosts','action'=>'index']);
                  
              }
              
@@ -81,7 +78,7 @@ class UsersController extends AppController
             //exit;
             if ($user) {
                 $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl());
+                return $this->redirect(['controller'=>'BlogPosts','action'=>'index']);
             }
             $this->Flash->error(__('Invalid username or password, try again'));
         }
@@ -91,6 +88,8 @@ class UsersController extends AppController
     public function logout()
     {
         $this->Cookie->delete('UserNew');
+        $this->request->Session()->delete('Auth.User');
+        $this->Flash->error("Logout successful");     
         return $this->redirect(['controller'=>'users','action' => 'login']);
     }
     public function index()

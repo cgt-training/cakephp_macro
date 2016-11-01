@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Comment Controller
@@ -29,6 +30,14 @@ class CommentController extends AppController
         {
             $this->viewBuilder()->layout('frontend');
         }
+    }
+     public function beforeFilter(Event $event)
+    {
+          parent::beforeFilter($event);
+        // Allow users to register and logout.
+        // You should not add the "login" action to allow list. Doing so would
+        // cause problems with normal functioning of AuthComponent.
+        $this->Auth->allow(['add', 'index']);
     }
     public function index()
     {
@@ -86,7 +95,7 @@ class CommentController extends AppController
      */
     public function edit($id = null)
     {
-        echo "fsdfsdf";exit;
+       // echo "fsdfsdf";exit;
         $comment = $this->Comment->get($id, [
             'contain' => []
         ]);

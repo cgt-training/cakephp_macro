@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 class PostsController extends AppController
 {
@@ -23,20 +24,43 @@ class PostsController extends AppController
     public function beforeFilter(Event $event)
     {
           parent::beforeFilter($event);
+          $this->Auth->config('authorize', ['Controller']);
         // Allow users to register and logout.
         // You should not add the "login" action to allow list. Doing so would
-        // cause problems with normal functioning of AuthComponent.
-        $this->Auth->allow();
+        // cause problems with normal functioning of AuthComponent.        
     }
     public function index()
     {
        // echo "dasd";exit;
-        $posts = $this->Posts->find('all');
-       // pr($posts);exit;
-       // $this->set(compact('posts'));
-        $this->set('post', $posts);
+        $userEntity = $this->Auth->user();
+       // $Posts = $this->Posts->find('ownedBy', ['user' => $userEntity]);
+        $Posts = $this->Posts->find();
+        $this->set(compact('Posts'));
+        $this->set('_serialize', ['Posts']);
     }
-    
+    public function isAuthorized($user = null)
+    {
+        // All registered users can add articles
+        if ($this->request->action === 'add') {
+            return true;
+        }
+        if (isset($user['role']) && $user['role'] === 'admin') {
+                return true;
+        }
+
+        // The owner of an article can edit and delete it
+        if (in_array($this->request->action, ['edit', 'delete'])) {
+            $postId = (int)$this->request->params['pass'][0];
+            //debug($this->Posts->isOwnedBy($postId, $user['id']));
+            if ($this->Posts->isOwnedBy($postId, $user['id'])) {
+                return true;
+            }
+            $this->Flash->error(__('Unauthorized access'));
+            $this->redirect(['action' => 'index']);
+        }
+
+        return parent::isAuthorized($user);
+    }
     public function add()
     {
         $post = $this->Posts->newEntity();
@@ -45,6 +69,7 @@ class PostsController extends AppController
             $post = $this->Posts->patchEntity($post, $this->request->data);
             $post->created = date("Y-m-d H:i:s");
             $post->modified = date("Y-m-d H:i:s");
+            $post->user_id = $this->Auth->user('id');
             if ($this->Posts->save($post)) {
                 $this->Flash->success(__('Your post has been saved.'));
                 return $this->redirect(['action' => 'index']);

@@ -8,7 +8,7 @@
     echo $this->Html->script('bootstrap.min.js');
 
 ?>
-<title>Bootstrap Layout</title>
+<title>Macro Tracker</title>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -41,6 +41,14 @@
         color: #FFF;
         width: 100%;
         position: fixed; bottom: 0px; 
+      }
+       .success
+      {
+        color: #18660B;
+      }
+      .error
+      {
+        color: #FF0000;
       }
     </style>
     <script type="text/javascript">

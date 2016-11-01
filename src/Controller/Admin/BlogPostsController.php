@@ -32,14 +32,11 @@ class BlogPostsController extends AppController
         }
 
     }
-     public function isAuthorized()
-    {
-        return true;
-    }
+    
     public function index()
     {
         $blogPosts = $this->paginate($this->BlogPosts);
-
+        //pr($this->request->Session()->read('Auth.User'));
         $this->set(compact('blogPosts'));
         $this->set('_serialize', ['blogPosts']);
     }
