@@ -44,6 +44,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Cookie');
         $this->loadComponent('Flash');
+       // echo $this->request->prefix;
        if(isset($this->request->prefix) && ($this->request->prefix == 'admin')){
 
         // if($user == 'admin'){
@@ -53,8 +54,8 @@ class AppController extends Controller
                         'authorize' => 'Controller',  
 
                         'loginRedirect' => [
-                        'controller' => 'BlogPosts',
-                        'action' => 'index',
+                        'controller' => 'Dashboards',
+                        'action' => 'display',
                         'prefix' => 'admin',
                         // 'prefix' => false,
                         ],
@@ -81,7 +82,7 @@ class AppController extends Controller
 
                      $this->loadComponent('Auth', [ 
 
-                       //  'authorize' => 'Controller',
+                        'authorize' => 'Controller',
 
                         'loginRedirect' => [
                         'controller' => 'Posts',
@@ -104,7 +105,7 @@ class AppController extends Controller
                             ]
 
                         ],
-                        // 'authorize' => ['Controller'],
+                        'authorize' => ['Controller'],
 
                         
                     ]);
@@ -115,19 +116,20 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         //pr($this->request);
-         //if(empty($this->request->prefix) && ($this->request->prefix !== 'admin'))
-         //{
+         if(empty($this->request->prefix) && ($this->request->prefix !== 'admin'))
+         {
              $this->Auth->allow(['index', 'view', 'display']); 
            // $this->Auth->deny(); 
-        // }
+         }
        
     }
     public function isAuthorized($user = null)
     {
-       // echo pr($_SESSION) ;exit;
+
+      // echo pr($_SESSION) ;exit;
         if (isset($this->request->params['prefix']) && $this->request->params['prefix'] === 'admin') 
         {
-           // echo "test".$user['role'];exit;
+          // echo "test".$user['role'];exit;
             if($user['role'] != 'admin'){
                 $this->Flash->error("Unauthorized access");     
                 $this->redirect(['controller' => 'Users','action' => 'logout']);
@@ -158,11 +160,13 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
+        
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
             $this->set('_serialize', true);
         }
+           $this->set("UserData",$this->Auth->user());
     }
     function checkCookie(){
 

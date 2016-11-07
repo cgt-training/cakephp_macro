@@ -2,39 +2,53 @@
 <html >
   <head>
      <?= $this->element('head') ?></head>
-  <body>
-  
-<?= $this->Form->create() ?>
-<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
-
-  <div class="modal-dialog">
-
-  <div class="modal-content">
-
-      <div class="modal-header">    
-          <h4 class="text-center"><?= $this->Flash->render() ?></h4>      
-          <h1 class="text-center">Login</h1>
-      </div>
-      <div class="modal-body">
-          <form class="form col-md-12 center-block">
-            <div class="form-group">
-             <?= $this->Form->input('username',['class'=>'form-control input-lg']); ?>
-            </div>
-            <div class="form-group">             
-            <?= $this->Form->input('password',['class'=>'form-control input-lg']); ?>
-            </div>
-            <div class="form-group">
-              <? echo $this->Form->button(__('Login'),['class'=>'btn btn-primary btn-lg btn-block']);?>  
-            </div>
-          </form>
-      </div>
-      <div class="modal-footer" style="border: none;">
-          <div class="col-md-12">          
-      </div>  
-      </div>
+  <body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="#"><b>Macro</b>Tracker</a>
   </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg text-center"><?= $this->Flash->render() ?></p>   
+    <?= $this->Form->create() ?>
+      <div class="form-group has-feedback">
+         <?= $this->Form->input('username',['class'=>'form-control','placeholder'=>'User Name','label' => false]); ?>      
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">        
+        <?= $this->Form->input('password',['class'=>'form-control','placeholder'=>'Password','label' => false]); ?>   
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">       
+            <?=  $this->Form->input('remember_me', ['type' => 'checkbox','value'=>'Y','hiddenField' => false,'label'=>' Remember Me']); ?>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+    <div class="social-auth-links text-center">
+      <p>- OR -</p>
+      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
+        Facebook</a>
+      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
+        Google+</a>
+    </div>
+    <!-- /.social-auth-links
+
+    <a href="#">I forgot my password</a><br>
+    <a href="register.html" class="text-center">Register a new membership</a>
+ -->
   </div>
+  <!-- /.login-box-body -->
 </div>
- <?= $this->Form->end() ?>
-  </body>
+<!-- /.login-box -->
+
+</body>
 </html>

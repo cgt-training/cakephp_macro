@@ -1,53 +1,66 @@
-<nav class="navbar navbar-default" style="margin-bottom: 0">
-  <div class="container">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" aria-expanded="false">
+  <header class="main-header">
+    <!-- Logo -->
+    <?php
+   echo $this->Html->link('<span class="logo-mini"><b>T</b>rack</span><span class="logo-lg"><b>Macro</b>Tracker</span>',
+      ['controller'=>'dashboards','action'=>'display'],
+      ['escape'=>false,'class'=>'logo'])
+    ?>   
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <?= $this->Html->link('MACRO<strong><span style="color: #FF0000">TRACKER</span></strong>', ['controller'=>'Posts','action' => 'index'],['escape'=>false,'style'=>'font-size: 20px;','class'=>'navbar-brand navbar-brand-right']) ?>
-      <a class="" href="#" style=""></a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2"  >
-      <ul class="nav navbar-nav navbar-right">
-        <li class="active"><?= $this->Html->link('Posts', ['controller'=>'BlogPosts','action' => 'index'],['class'=>'AjaxLink TopLink']) ?></li>       
-        <li><?= $this->Html->link('User', ['controller'=>'/Users','action' => '/index'],['class'=>'AjaxLink TopLink']) ?></li>
-        <li>
-        <?php
-       // pr($this->request->Session()->read('Auth.User'));
-            if($this->request->Session()->read('Auth.User')) {
-               // user is logged in, show logout..user menu etc
-               echo $this->Html->link(__('Log Out'), ['controller' => 'Users', 'action' => 'logout']); 
-            } else {
-               // the user is not logged in
-               echo $this->Html->link(__('Log in'), ['controller' => 'Users', 'action' => 'login']); 
-            }
-        ?>
-        </li>
-        
-      </ul>
-  
-    </div><!-- /.navbar-collapse -->
-  </div>
-</nav>
-<div class="container" style="padding: 0">    
- <?= $this->Html->image('Layer_16.jpg', array('alt' => 'CakePHP','class'=>'img-responsive','style'=>'width:100%')); ?> 
-</div>
- <script type="text/javascript">
-       $(function () {
-        $(".TopLink").click(function(){
-        $(".TopLink").removeClass("active");  
-        $(".TopLink").parent('li').removeClass("active");  
-         $(this).addClass("active");
-         $(this).parent('li').addClass("active");
-
-        });
-        
-       });
-
-    </script>
+      </a>
+       <?php
+      // pr($this->request->Session()->read());
+       $username = $this->request->Session()->read('Auth.User.username');
+       $created = $this->request->Session()->read('Auth.User.created');
+       ?>  
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav"> 
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <?php
+              if(empty($this->request->Session()->read('Auth.User.image'))):
+              echo $this->Html->image('user2-160x160.jpg', ['alt' => 'User Image','class'=>'user-image']);
+              else :
+              echo $this->Html->image(__($this->request->Session()->read('Auth.User.image')), ['alt' => 'User Image','class'=>'user-image','height'=>'160']); 
+              endif;
+            ?>
+              <span class="hidden-xs"><?php echo h($username); ?> </span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+             <?php
+              if(empty($this->request->Session()->read('Auth.User.image'))):
+              echo $this->Html->image('user2-160x160.jpg', ['alt' => 'User Image','class'=>'img-circle']);
+              else :
+              echo $this->Html->image(__($this->request->Session()->read('Auth.User.image')), ['alt' => 'User Image','class'=>'img-circle']); 
+              endif;
+            ?>
+                <p>
+                <?php echo h($username); ?>             
+                  <small>Member since <?=$this->Time->format($created, 'dd-MM-YYYY');?></small>
+                </p>
+              </li>              
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <?=  $this->Html->link(__('Profile'), '#',['class'=>'btn btn-default btn-flat','href'=>'#']); ?>
+                </div>
+                <div class="pull-right">
+                 <?=  $this->Html->link(__('Sign Out'), ['controller' => 'Users', 'action' => 'logout'],['class'=>'btn btn-default btn-flat']); ?>               
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button 
+          <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li>-->
+        </ul>
+      </div>
+    </nav>
+  </header>

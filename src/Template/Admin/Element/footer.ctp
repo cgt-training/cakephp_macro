@@ -1,7 +1,7 @@
-<footer>
-    <div class="row">
-        <div class="col-lg-12">
-            <p>Copyright &copy; Your Website 2015</p>
-        </div>
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 2.3.7
     </div>
-</footer>
+    <strong>Copyright &copy; 2014-2016 <a href="#">CGT</a>.</strong> All rights
+    reserved.
+  </footer>

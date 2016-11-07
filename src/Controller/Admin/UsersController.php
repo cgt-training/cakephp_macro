@@ -65,7 +65,7 @@ class UsersController extends AppController
                  //$this->Cookie->read('UserNew.name');
                 
                  $this->Auth->setUser($user);
-                 return $this->redirect(['controller'=>'BlogPosts','action'=>'index']);
+                 return $this->redirect(['controller'=>'Dashboards','action'=>'display']);
                  
              }
              
@@ -78,7 +78,7 @@ class UsersController extends AppController
             //exit;
             if ($user) {
                 $this->Auth->setUser($user);
-                return $this->redirect(['controller'=>'BlogPosts','action'=>'index']);
+                return $this->redirect(['controller'=>'Dashboards','action'=>'display']);
             }
             $this->Flash->error(__('Invalid username or password, try again'));
         }
@@ -98,6 +98,13 @@ class UsersController extends AppController
 
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
+    }
+     public function todolist()
+    {
+        $Users = $this->Users->find('all')->select(['id', 'username','created'])->limit('5');
+        //pr($this->request->Session()->read('Auth.User'));
+        $this->set(compact('Users'));
+        $this->set('_serialize', ['Users']);
     }
 
     /**
@@ -125,6 +132,24 @@ class UsersController extends AppController
     public function add()
     {
         $user = $this->Users->newEntity();
+         if(!empty($this->request->data['image']['name']))
+        {
+            $file = $this->request->data['image']; //put the data into a var for easy use
+
+            $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+            $arr_ext = array('jpg', 'jpeg', 'gif','png'); //set allowed extensions
+            $setNewFileName = time() . "_" . rand(000000, 999999).$ext;
+            //only process if the extension is valid
+            if(in_array($ext, $arr_ext))
+            {
+                //do the actual uploading of the file. First arg is the tmp name, second arg is
+                //where we are putting it
+                move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/uploads/' . $setNewFileName);
+
+                //prepare the filename for database entry
+                $this->request->data['image'] = 'uploads/' . $setNewFileName;
+            }
+        }
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             $user->created = date("Y-m-d H:i:s");
@@ -153,6 +178,24 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
+        if(!empty($this->request->data['image']['name']))
+        {
+            $file = $this->request->data['image']; //put the data into a var for easy use
+
+            $ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+            $arr_ext = array('jpg', 'jpeg', 'gif','png'); //set allowed extensions
+            $setNewFileName = time() . "_" . rand(000000, 999999).$ext;
+            //only process if the extension is valid
+            if(in_array($ext, $arr_ext))
+            {
+                //do the actual uploading of the file. First arg is the tmp name, second arg is
+                //where we are putting it
+                move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img/uploads/' . $setNewFileName);
+
+                //prepare the filename for database entry
+                $this->request->data['image'] = 'uploads/' . $setNewFileName;
+            }
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             $user->modified = date("Y-m-d H:i:s");

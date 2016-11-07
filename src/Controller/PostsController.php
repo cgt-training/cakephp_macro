@@ -32,9 +32,11 @@ class PostsController extends AppController
     public function index()
     {
        // echo "dasd";exit;
-        $userEntity = $this->Auth->user();
+       // $userEntity = $this->Auth->user();
        // $Posts = $this->Posts->find('ownedBy', ['user' => $userEntity]);
-        $Posts = $this->Posts->find();
+      //  $Posts = $this->Posts->find();
+        $Posts = $this->paginate($this->Posts);
+
         $this->set(compact('Posts'));
         $this->set('_serialize', ['Posts']);
     }

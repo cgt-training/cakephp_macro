@@ -41,6 +41,14 @@ class BlogPostsController extends AppController
         $this->set('_serialize', ['blogPosts']);
     }
 
+    public function todolist()
+    {
+        $blogPosts = $this->BlogPosts->find('all')->select(['id', 'name','created'])->limit('5');
+        //pr($this->request->Session()->read('Auth.User'));
+        $this->set(compact('blogPosts'));
+        $this->set('_serialize', ['blogPosts']);
+    }
+
     /**
      * View method
      *
